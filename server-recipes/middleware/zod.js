@@ -20,8 +20,7 @@ function validateInput(users) {
     return result;
 }
 
-
 module.exports = {
     validateInput,
-    generateId
+    generateId,
 }
