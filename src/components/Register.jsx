@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 
 const Register = () => {
     const [username, setUsername] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
+    const [error, setError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -19,20 +21,22 @@ const Register = () => {
                 email,
                 password
             });
-            console.log('Reg response', + response.data);
+            // console.log('Reg response', + response.data);
 
-            alert('Reg complete, now login');
+            setSuccessMessage('Registration complete, now login');
         }
         catch(err){
-            console.log(err);
+            setError('User already exists, login');
         }
     }
     return ( 
         <div className="flex h-screen w-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-yellow-800">
             Enter your details
           </h2>
+          {error && <p className='flex justify-center text-red-500 font-light'>{error}</p>}
+          {successMessage && <p className='flex justify-center text-green-500 font-light'>{successMessage}</p>}
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -85,7 +89,7 @@ const Register = () => {
             </div>
 
               <button type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                className="flex w-full justify-center rounded-md bg-yellow-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-yellow-500 focus-visible:outline">
                 Submit
               </button>
 
@@ -93,7 +97,7 @@ const Register = () => {
 
           <p className="mt-10 text-center text-sm text-gray-500">
             Have an account?{' '}
-            <Link to='/auth' className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+            <Link to='/auth' className="font-semibold leading-6 text-yellow-500">
               Login
             </Link>
           </p>

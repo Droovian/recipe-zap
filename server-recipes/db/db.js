@@ -4,7 +4,6 @@ mongoose.connect('mongodb://127.0.0.1/recipe-zap')
 .then(()=>{console.log('mongodb connected');});
 
 const UserSchema = new mongoose.Schema({
-    id: String,
     username: String,
     email: String,
     password: String,
@@ -35,7 +34,6 @@ const RecipeSchema = new mongoose.Schema({
     userOwner:{
         type:mongoose.Schema.Types.ObjectId,
         ref : "users",
-        required: true
     }
 });
 

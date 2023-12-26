@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 function verifyToken(req, res, next){
     const token = req.headers.authorization;
 
+    // console.log("Received Token:", token);
+
     if (!token) {
         return res.status(401).json({
             msg: 'Unauthorized: Token not provided'
@@ -16,7 +18,7 @@ function verifyToken(req, res, next){
             });
         }
 
-        req.userId = decoded.userId;
+        req.userId = decoded._id;
         next();
     });
 }

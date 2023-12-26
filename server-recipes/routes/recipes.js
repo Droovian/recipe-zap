@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { Recipes, User } = require('../db/db');
+const { verifyToken } = require('../middleware/jwt');
 
 const router = express.Router();
 
@@ -17,15 +18,23 @@ router.get('/', async (req, res)=>{
     }
 });
 
-router.post('/', async(req, res)=>{
-    const recipe = new Recipes(req.body);
-
+router.post('/upload', verifyToken,  async(req, res)=>{
+    
     try{
+        const recipe = new Recipes({
+            name: req.body.name,
+            ingredients: req.body.ingredients,
+            instructions: req.body.instructions,
+            imageUrl: req.body.imageUrl, 
+            cookingTime: req.body.cookingTime,
+            userOwner: req.userId,
+        });
+
         const response = await recipe.save();
-        res.json(response);
+        res.status(200).json(response);
     }
     catch(err){
-        res.json(err);
+        res.status(404).json(err);
     }
 });
 
@@ -44,7 +53,7 @@ router.put('/', async(req, res)=>{
     }
 });
 
-router.get('/view-recipes', async(req, res)=>{
+router.get('/view-recipes', verifyToken, async(req, res)=>{
     try{
         const recipes = await Recipes.find({});
 

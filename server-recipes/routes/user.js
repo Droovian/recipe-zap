@@ -18,9 +18,8 @@ app.use(express.json());
 
 router.post('/register', passwordMiddleware, async(req, res) => {
 
-    console.log('Received registration request:', req.body);
+    // console.log('Received registration request:', req.body);
 
-    const id = generateId();
     const name = req.body.username;
     const email = req.body.email;
     const password = req.hashedPassword;
@@ -43,7 +42,6 @@ router.post('/register', passwordMiddleware, async(req, res) => {
     }
 
     const user = new User({
-        id: id,
         username : name,
         email : email,
         password: password
