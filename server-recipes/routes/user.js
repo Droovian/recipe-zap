@@ -76,7 +76,7 @@ router.post('/login', async(req, res) => {
         const checkPass = await bcrypt.compare(password, user.password);
 
         if(checkPass){
-            const token = jwt.sign({ userId: user.id }, `${jwtKey}`);
+            const token = jwt.sign({ userId: user._id }, `${jwtKey}`);
 
             return res.status(200).json({
                 msg : 'Login Successful',

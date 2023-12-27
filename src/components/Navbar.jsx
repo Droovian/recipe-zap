@@ -19,6 +19,7 @@ const Navbar = () => {
                 <Link to="/" className="hover:text-gray-500">Home</Link>
                 <Link to="/add-recipe" className="hover:text-gray-500">Add recipe</Link>
                 <Link to="/recipes" className="hover:text-gray-500">View Recipes</Link>
+                <Link to='/user-recipes' className="hover:text-gray-500">My Recipes</Link>
                 { !cookies.access_token ? (<Link to="/register" className="hover:text-gray-500">Register</Link>)
                 : <button onClick={logout} className="hover:text-gray-500">Logout</button>}
                 

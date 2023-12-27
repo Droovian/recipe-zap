@@ -20,7 +20,19 @@ function validateInput(users) {
     return result;
 }
 
+function validateRecipes(recipes) {
+    const recipeSchema = zod.object({
+        name: zod.string().min(1).max(255),
+        imageUrl: zod.string().url(),
+        cookingTime: zod.number().int().positive(),
+      });
+
+      return recipeSchema.safeParse(recipes);
+}
+
+
 module.exports = {
     validateInput,
     generateId,
+    validateRecipes
 }

@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { Recipes, User } = require('../db/db');
 const { verifyToken } = require('../middleware/jwt');
-
+const { validateRecipes } = require('../middleware/zod');
 const router = express.Router();
 
 router.get('/', verifyToken, async (req, res)=>{
@@ -18,9 +18,56 @@ router.get('/', verifyToken, async (req, res)=>{
     }
 });
 
+
+router.get('/own-recipes', verifyToken,  async(req, res) => {
+
+    const userId = req.userId;
+    try{
+        const userRecipes = await Recipes.find({ userOwner: userId });
+
+        if(!userRecipes || userRecipes.length === 0){
+            return res.status(404).json({
+                msg : 'User doesnt have any recipes posted'
+            });
+        }
+
+        res.json({
+            userRecipes
+        });
+    }
+    catch(error){
+        res.status(500).json({
+            msg : 'Error occured, recipes dont exist here'
+        });
+    }
+});
+
+
 router.post('/upload', verifyToken,  async(req, res)=>{
     
+    const name = req.body.name;
+    const userId = req.userId;
+
     try{
+
+        const dish = await Recipes.find({ name, userOwner: userId });
+
+        if(dish.length > 0){
+            return res.status(401).json({
+                msg : 'It looks like you have already posted this recipe'
+            });
+        }
+
+        const validator = validateRecipes(req.body);
+
+        if(!validator.success){
+            res.status(400).json({
+                msg: 'Enter valid data please',
+                errors: validator.error.errors
+            });
+            return;
+        }
+
         const recipe = new Recipes({
             name: req.body.name,
             ingredients: req.body.ingredients,
@@ -36,6 +83,7 @@ router.post('/upload', verifyToken,  async(req, res)=>{
     catch(err){
         res.status(404).json(err);
     }
+
 });
 
 router.put('/', async(req, res)=>{

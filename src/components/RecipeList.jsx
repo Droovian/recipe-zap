@@ -44,18 +44,35 @@ const RecipeList = () => {
   }
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={4} className="p-6">
       {recipes.map((recipe) => (
         <Grid item key={recipe._id} xs={12} sm={6} md={4} lg={3}>
-          <Card>
-            <CardContent>
-              <Typography variant="h6" component="div">
+          <Card className="h-full border-2 border-gray-300 rounded-lg overflow-hidden shadow-md transition duration-500 transform hover:scale-105">
+            <img
+              src={recipe.imageUrl}
+              alt={recipe.name}
+              className="w-full h-48 object-cover object-center"
+            />
+            <CardContent className="py-4">
+              <Typography
+                variant="h6"
+                component="div"
+                className="text-xl font-semibold text-gray-800 mb-2"
+              >
                 {recipe.name}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                className="mb-2"
+              >
                 Cooking Time: {recipe.cookingTime} minutes
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                className="mb-2"
+              >
                 Ingredients: {recipe.ingredients.join(", ")}
               </Typography>
               <Typography variant="body2" color="text.secondary">

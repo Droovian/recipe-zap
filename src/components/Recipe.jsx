@@ -6,6 +6,8 @@ const Recipe = () => {
 
   const [cookies, setCookies] = useCookies(["access_token"]);
   const [success, setSuccessMessage] = useState('');
+  const [error, setErrorMessage] = useState('');
+
   const token = localStorage.getItem("access_token");
 
 
@@ -32,8 +34,23 @@ const Recipe = () => {
       setSuccessMessage('Recipe has been uploaded. That seems delicious.')
       console.log('Recipe uploaded', response.data);
     }
-    catch(error){
-      console.log('some error occured');
+    catch (error) {
+      if (error.response) {
+        console.error('Server Error:', error.response.data);
+        if (error.response.status === 401) {
+          setErrorMessage('It looks like you have already posted this recipe');
+        } else if (error.response.status === 400) {
+          setErrorMessage('Bad Request: Please check your input data.');
+        } else {
+          setErrorMessage('Error: Something went wrong.');
+        }
+      } else if (error.request) {
+        console.error('Request Error:', error.request);
+        setErrorMessage('Error: No response received from the server.');
+      } else {
+        console.error('Other Error:', error.message);
+        setErrorMessage('Error: Something went wrong.');
+      }
     }
   }
 
@@ -82,7 +99,8 @@ const Recipe = () => {
             <button className='mx-auto w-1/2 px-3 py-2 bg-yellow-600 hover:bg-yellow-500 border rounded-md text-white mb-3'>Submit</button>
             
           </form>
-          { success ? <h1 className='flex justify-center text-green-400'>{success}</h1> : null}
+          { success ? <h1 className='flex justify-center text-green-700'>{success}</h1> : null}
+          {error && <h1 className='flex justify-center text-red-500'>{error}</h1>}
         </div>
           ) : (
             <div className='flex justify-center items-center h-32'>
