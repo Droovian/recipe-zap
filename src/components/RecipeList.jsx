@@ -11,6 +11,7 @@ const RecipeList = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+
       try {
         const token = localStorage.getItem("access_token");
         //  console.log("Token:", token);

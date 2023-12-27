@@ -5,6 +5,7 @@ import axios from 'axios';
 const Recipe = () => {
 
   const [cookies, setCookies] = useCookies(["access_token"]);
+  const [success, setSuccessMessage] = useState('');
   const token = localStorage.getItem("access_token");
 
 
@@ -27,7 +28,8 @@ const Recipe = () => {
         }
       });
 
-      console.log(recipeData);
+      // console.log(recipeData);
+      setSuccessMessage('Recipe has been uploaded. That seems delicious.')
       console.log('Recipe uploaded', response.data);
     }
     catch(error){
@@ -40,7 +42,6 @@ const Recipe = () => {
         <div>
           <h1 className='text-2xl font-bold text-black flex justify-center p-4'>Add Recipes</h1>
         </div>
-
         {
           cookies.access_token
           ?
@@ -81,6 +82,7 @@ const Recipe = () => {
             <button className='mx-auto w-1/2 px-3 py-2 bg-yellow-600 hover:bg-yellow-500 border rounded-md text-white mb-3'>Submit</button>
             
           </form>
+          { success ? <h1 className='flex justify-center text-green-400'>{success}</h1> : null}
         </div>
           ) : (
             <div className='flex justify-center items-center h-32'>

@@ -5,7 +5,7 @@ const { verifyToken } = require('../middleware/jwt');
 
 const router = express.Router();
 
-router.get('/', async (req, res)=>{
+router.get('/', verifyToken, async (req, res)=>{
 
     try{
         const data = await Recipes.find({})

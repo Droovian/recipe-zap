@@ -6,6 +6,7 @@ import axios from 'axios';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
     const [_, setCookies] = useCookies(["access_token"]);
 
@@ -25,7 +26,7 @@ const Login = () => {
             navigate('/');
         }
         catch(err){
-            console.log(err);
+            setError('Incorrect Email/Password')
         }
     }
   return (
@@ -34,6 +35,7 @@ const Login = () => {
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-yellow-800">
             Sign in to your account
           </h2>
+          { error ? <p className='text-red-500 font-light flex justify-center'>{error}</p> : null}
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
