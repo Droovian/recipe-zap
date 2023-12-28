@@ -117,6 +117,33 @@ router.get('/view-recipes', verifyToken, async(req, res)=>{
     }
 });
 
+router.delete('/delete/:id', verifyToken,  async(req, res) => {
+
+    const recipeId = req.params.id;
+
+    try{
+        const recipe = await Recipes.findById(recipeId);
+
+        if(!recipe){
+            return res.status(404).json({
+                msg : "Recipe was not found"
+            });
+        }
+
+        await Recipes.findByIdAndDelete(recipeId);
+
+        res.status(200).json({
+            msg : "Recipe has been deleted successfully"
+        });
+    }
+    catch(error){
+        res.status(404).json({
+            msg : "Error while deleting"
+        });
+    }
+});
+
+
 
 router.get('/savedRecipes/ids', async(req, res)=>{
     try{

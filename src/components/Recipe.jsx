@@ -55,62 +55,90 @@ const Recipe = () => {
   }
 
   return (
-      <div>
-        <div>
-          <h1 className='text-2xl font-bold text-black flex justify-center p-4'>Add Recipes</h1>
-        </div>
-        {
-          cookies.access_token
-          ?
-          (
-        <div>
-          <form className='flex flex-col space-y-3 justify-center p-4 max-w-md mx-auto' onSubmit={handleSubmit}>
-            <label htmlFor="name">Recipe Name</label>
-            <input type="text" value={recipeData.name} 
-            onChange={(e) => {
-              setRecipeData({...recipeData, name: e.target.value})
-            }}
-            className='border p-2 rounded-md'/>
-            <label htmlFor="ingredients">Ingredients</label>
-            <input type="text"
-            value={recipeData.ingredients.join(', ')}
-            onChange={(e) => {
-              setRecipeData({...recipeData, ingredients: e.target.value.split(', ')})
-            }}
-             className='border p-2 rounded-md'/>
-            <label htmlFor="instructions">Instructions</label>
-            <input type="text"
-            value={recipeData.instructions}
-            onChange={(e) => setRecipeData({ ...recipeData, instructions: e.target.value })}
-             className='border p-2 rounded-md' />
-            <label htmlFor="Image">Provide an Image</label>
-            <input type="text"
-            value={recipeData.imageUrl}
-            onChange={(e) => setRecipeData({ ...recipeData, imageUrl: e.target.value })}
-             className='border p-2 rounded-md' />
-            <label htmlFor="cooking-time">Cooking Time</label>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
+      <h1 className="text-3xl font-bold text-center mb-6">Add Recipe</h1>
+      {cookies.access_token ? (
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label htmlFor="name" className="block text-sm font-medium text-gray-600">
+              Recipe Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={recipeData.name}
+              onChange={(e) => setRecipeData({ ...recipeData, name: e.target.value })}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="ingredients" className="block text-sm font-medium text-gray-600">
+              Ingredients
+            </label>
+            <input
+              type="text"
+              id="ingredients"
+              value={recipeData.ingredients.join(', ')}
+              onChange={(e) => setRecipeData({ ...recipeData, ingredients: e.target.value.split(', ') })}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="instructions" className="block text-sm font-medium text-gray-600">
+              Instructions
+            </label>
+            <input
+              type="text"
+              id="instructions"
+              value={recipeData.instructions}
+              onChange={(e) => setRecipeData({ ...recipeData, instructions: e.target.value })}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="imageUrl" className="block text-sm font-medium text-gray-600">
+              Image URL
+            </label>
+            <input
+              type="text"
+              id="imageUrl"
+              value={recipeData.imageUrl}
+              onChange={(e) => setRecipeData({ ...recipeData, imageUrl: e.target.value })}
+              className="mt-1 p-2 border rounded-md w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="cookingTime" className="block text-sm font-medium text-gray-600">
+              Cooking Time
+            </label>
             <input
               type="number"
+              id="cookingTime"
               value={recipeData.cookingTime || ''}
               onChange={(e) => setRecipeData({ ...recipeData, cookingTime: parseInt(e.target.value, 10) || 0 })}
-              className='border p-2 rounded-md'
+              className="mt-1 p-2 border rounded-md w-full"
             />
+          </div>
 
-            <button className='mx-auto w-1/2 px-3 py-2 bg-yellow-600 hover:bg-yellow-500 border rounded-md text-white mb-3'>Submit</button>
-            
-          </form>
-          { success ? <h1 className='flex justify-center text-green-700'>{success}</h1> : null}
-          {error && <h1 className='flex justify-center text-red-500'>{error}</h1>}
+          <button className="bg-yellow-600 hover:bg-yellow-500 text-white p-2 rounded-md w-full" type="submit">
+            Submit
+          </button>
+        </form>
+      ) : (
+        <div className="flex justify-center items-center h-32">
+          <h2 className="font-semibold text-2xl mx-3 underline text-red-500">Kindly login to add recipes</h2>
         </div>
-          ) : (
-            <div className='flex justify-center items-center h-32'>
-              <h2 className='font-semibold text-2xl mx-3 underline text-red-500'>Kindly login to add recipes</h2>
-            </div>
-          )
-        }
-      </div>
-    
-  );
+      )}
+      {success && <h1 className="text-green-700 text-center mt-4">{success}</h1>}
+      {error && <h1 className="text-red-500 text-center mt-4">{error}</h1>}
+    </div>
+  </div>
+);
 };
 
 export default Recipe;

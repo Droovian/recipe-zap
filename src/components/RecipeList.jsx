@@ -45,6 +45,11 @@ const RecipeList = () => {
 
   return (
     <Grid container spacing={4} className="p-6">
+    {recipes.length === 0 ? (
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-4xl">
+        It looks like everyone orders food online nowadays 😔
+      </div>
+    ) : null}
       {recipes.map((recipe) => (
         <Grid item key={recipe._id} xs={12} sm={6} md={4} lg={3}>
           <Card className="h-full border-2 border-gray-300 rounded-lg overflow-hidden shadow-md transition duration-500 transform hover:scale-105">
@@ -53,6 +58,7 @@ const RecipeList = () => {
               alt={recipe.name}
               className="w-full h-48 object-cover object-center"
             />
+            
             <CardContent className="py-4">
               <Typography
                 variant="h6"
