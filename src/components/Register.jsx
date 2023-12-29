@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [error, setError] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -14,29 +14,32 @@ const Register = () => {
         e.preventDefault();
 
         try{
-            // console.log('Sending registration request:', { username, email, password });
 
             const response = await axios.post("http://localhost:3000/auth/register", {
                 username,
                 email,
                 password
             });
-            // console.log('Reg response', + response.data);
 
-            setSuccessMessage('Registration complete, now login');
+            toast.success("Registration complete!", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 2000,
+            });
         }
         catch(err){
-            setError('User already exists, login');
+          toast.error("Email already in use", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000, 
+          });
         }
     }
     return ( 
         <div className="flex h-screen w-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <ToastContainer/>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-yellow-800">
             Enter your details
           </h2>
-          {error && <p className='flex justify-center text-red-500 font-light'>{error}</p>}
-          {successMessage && <p className='flex justify-center text-green-500 font-light'>{successMessage}</p>}
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

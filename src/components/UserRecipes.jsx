@@ -14,24 +14,30 @@ const UserRecipes = () => {
         try {
           await axios.delete(`http://localhost:3000/recipes/delete/${recipeId}`, {
             headers: {
-              authorization: `${token}`
+              Authorization: `${token}`
             }
           });
       
+          // Since the deletion was successful, fetch the updated user recipes
           const response = await axios.get('http://localhost:3000/recipes/own-recipes', {
             headers: {
-              authorization: `${token}`
+              Authorization: `${token}`
             }
           });
       
           setIndividualRecipes(response.data.userRecipes);
         } catch (error) {
           console.error('Error deleting recipe:', error);
-          setError('Sorry, something went wrong while deleting the recipe.');
+          if (error.response && error.response.status === 404) {
+            // Handle 404 error (Recipe not found) separately if needed
+            setError('Recipe not found.');
+          } else {
+            // Handle other errors
+            setError('Sorry, something went wrong while deleting the recipe.');
+          }
         }
       };
-    
-
+      
     useEffect(() => {
 
         const individualData = async () => {

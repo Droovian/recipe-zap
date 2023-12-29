@@ -2,11 +2,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
 
     const [_, setCookies] = useCookies(["access_token"]);
 
@@ -22,19 +24,30 @@ const Login = () => {
 
             setCookies("access_token", response.data.token);
             window.localStorage.setItem("access_token", response.data.token);
+            
+            toast.success("Logged in successfully", {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 2000,
+            });
+
+            await new Promise((resolve) => setTimeout(resolve, 2300));
             navigate('/');
+            
         }
         catch(err){
-            setError('Incorrect Email/Password')
+          toast.error("Login failed! No record", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 2000, 
+          });
         }
     }
   return (
     <div className="flex h-screen w-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+     <ToastContainer />
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-yellow-800">
             Sign in to your account
           </h2>
-          { error ? <p className='text-red-500 font-light flex justify-center'>{error}</p> : null}
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
