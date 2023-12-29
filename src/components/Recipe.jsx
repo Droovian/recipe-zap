@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Recipe = () => {
 
@@ -55,9 +56,9 @@ const Recipe = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-t from-amber-600 to-amber-300">
     <div className="max-w-md w-full bg-white p-8 rounded-md shadow-md">
-      <h1 className="text-3xl font-bold text-center mb-6">Add Recipe</h1>
+    {cookies.access_token ?(<h1 className="text-3xl font-bold text-center mb-6">Add Recipe</h1>) : null}
       {cookies.access_token ? (
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -131,7 +132,7 @@ const Recipe = () => {
         </form>
       ) : (
         <div className="flex justify-center items-center h-32">
-          <h2 className="font-semibold text-2xl mx-3 underline text-red-500">Kindly login to add recipes</h2>
+          <h2 className="font-semibold text-2xl mx-3 text-amber-600">Kindly <Link to='/auth' className='underline'>Login</Link> to add recipes</h2>
         </div>
       )}
       {success && <h1 className="text-green-700 text-center mt-4">{success}</h1>}

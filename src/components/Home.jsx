@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import Zap from '../assets/icons8-lightning-64.png';
+import ImageSlider from "./ImageSlider";
 
 const Home = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-amber-300">
       <div className="relative px-6 pt-14 lg:px-8 z-100">
         <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80">
         </div>
@@ -29,6 +30,7 @@ const Home = () => {
           
         </div>
       </div>
+      <ImageSlider/>
     </div>
   );
 };
