@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 const { passwordMiddleware } = require('../middleware/password');
-const { verifyToken } = require('../middleware/jwt');
 const { validateInput, generateId } = require('../middleware/zod');
 const { User } = require('../db/db');
 
@@ -96,10 +95,6 @@ router.post('/login', async(req, res) => {
             msg : 'Internal server error'
         });
     }
-});
-
-router.get('/', verifyToken, async(req, res) => {
-    res.send("Hellooooo you got access");
 });
 
 module.exports = router;

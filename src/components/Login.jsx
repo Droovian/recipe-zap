@@ -22,7 +22,6 @@ const Login = () => {
 
             setCookies("access_token", response.data.token);
             window.localStorage.setItem("access_token", response.data.token);
-            window.localStorage.setItem("id", response.data.id);
             navigate('/');
         }
         catch(err){

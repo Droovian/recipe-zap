@@ -14,7 +14,7 @@ const Home = () => {
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
             We are an open platform for passionate cooks around the world to enter their recipes.
-            You can now cook anything you want!
+            You can now learn to cook anything you want!
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link>

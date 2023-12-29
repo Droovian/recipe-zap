@@ -1,23 +1,8 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const { Recipes, User } = require('../db/db');
 const { verifyToken } = require('../middleware/jwt');
 const { validateRecipes } = require('../middleware/zod');
 const router = express.Router();
-
-router.get('/', verifyToken, async (req, res)=>{
-
-    try{
-        const data = await Recipes.find({})
-        res.json(data);
-    }
-    catch(err){
-        res.status(404).json({
-            msg : 'Error occured'
-        });
-    }
-});
-
 
 router.get('/own-recipes', verifyToken,  async(req, res) => {
 
@@ -103,6 +88,16 @@ router.put('/', async(req, res)=>{
 
 router.get('/view-recipes', verifyToken, async(req, res)=>{
     try{
+        const userId = req.userId;
+
+        const check = await User.findById(userId);
+
+        console.log(check);
+        if(!check){
+            return res.status(404).json({
+                msg : 'User not found or there was an error'
+            })
+        }
         const recipes = await Recipes.find({});
 
         res.json({
@@ -142,34 +137,5 @@ router.delete('/delete/:id', verifyToken,  async(req, res) => {
         });
     }
 });
-
-
-
-router.get('/savedRecipes/ids', async(req, res)=>{
-    try{
-        const user = await User.findById(req.body.id);
-
-        res.json({savedRecipes : user?.savedRecipes});
-    }
-    catch(err){
-        return res.status(404).json(err);
-    }
-});
-
-router.get('/savedRecipes', async(req, res)=>{
-    try{
-        const user = await User.findById(req.body.id);
-        const savedRecipes = await Recipes.find({
-            _id : { $in : user.savedRecipes },
-        });
-
-        res.json({savedRecipes});
-    }
-    catch(err){
-        return res.status(404).json(err);
-    }
-});
-
-
 
 module.exports = router;

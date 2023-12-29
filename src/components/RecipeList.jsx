@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Grid, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useCookies } from 'react-cookie';
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
@@ -14,10 +13,15 @@ const RecipeList = () => {
 
       try {
         const token = localStorage.getItem("access_token");
-        //  console.log("Token:", token);
+        // console.log("Token:", token);
+        if (!token) {
+          setError("Cannot view without logging in!");
+          return;
+        }
+        
         const response = await axios.get('http://localhost:3000/recipes/view-recipes', {
           headers:{
-            authorization: `${token}`
+            Authorization: `${token}`
           }
         });
         setRecipes(response.data.recipes);
